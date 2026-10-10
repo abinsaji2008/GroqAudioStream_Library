@@ -67,7 +67,7 @@ String GroqAudioStream::transcribe() {
   }
 
   resetFilter();
-  uint8_t raw[AUDIO_BUFFER_BYTES];
+  alignas(4) uint8_t raw[AUDIO_BUFFER_BYTES];
   const uint32_t recordStarted = millis();
   uint32_t lastVoiceMs = recordStarted;
   bool speechDetected = false;
