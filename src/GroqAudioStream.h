@@ -7,7 +7,7 @@
 #include <ESP_I2S.h>
 
 /*
- * GroqAudioStream v1.3.0
+ * GroqAudioStream v1.3.1
  * One-call API:
  *   groqAudio.setConfig(config);      // optional overrides
  *   groqAudio.begin(url, apiKey);     // once in setup()
@@ -34,6 +34,7 @@ public:
     uint32_t vadThreshold = 700;
     float audioGain = 8.0f;
     float highPassHz = 120.0f;
+    bool debugOutput = false; // false = silent library; true = print capture/errors.
   };
 
   GroqAudioStream();
@@ -47,6 +48,8 @@ public:
   // Called after Wi-Fi is checked and WakeNet's I2S has been released.
   // Returns transcript text, or an empty String for failure/no speech.
   String transcribe();
+  String lastError() const { return lastError_; }
+  int lastHttpStatus() const { return httpStatus_; }
 
 private:
   WiFiClientSecure client_;
