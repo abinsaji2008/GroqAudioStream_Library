@@ -1,6 +1,6 @@
 # GroqAudioStream Arduino Library
 
-**Version 1.3.0** — one-call audio capture and upload streaming for ESP32 + INMP441 + Groq Whisper.
+**Version 1.3.1** — one-call audio capture and upload streaming for ESP32 + INMP441 + Groq Whisper.
 
 ## Responsibility split
 
@@ -9,7 +9,7 @@
 - **GroqAudioStream:** captures microphone audio, applies filter/gain/VAD, streams the audio upload, and returns one `String` containing the transcript.
 - **`secrets.h`:** keeps Wi-Fi credentials and Groq API key private.
 
-This library **does not run LLM reasoning**. The returned transcript is passed to your main sketch's reasoning function. Your sketch can print only the final assistant answer.
+This library **does not run LLM reasoning**. The returned transcript is passed to the main sketch or reasoning library. Its own serial output is disabled by default; set `config.debugOutput = true` to print capture and error details.
 
 ## Install
 
@@ -36,6 +36,7 @@ GroqAudioStream::Config config; // defaults live in the library
 config.sdPin = MIC_SD_PIN;
 config.sckPin = MIC_SCK_PIN;
 config.wsPin = MIC_WS_PIN;
+config.debugOutput = false; // enable only while debugging
 config.useLeftChannel = MIC_USE_LEFT_CHANNEL;
 groqAudio.setConfig(config);
 
