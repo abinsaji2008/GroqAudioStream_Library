@@ -197,7 +197,7 @@ bool GroqAudioStream::startUpload() {
   request.reserve(300 + host_.length() + path_.length() + apiKey_.length());
   request += "POST "; request += path_; request += " HTTP/1.1\r\nHost: "; request += host_;
   request += "\r\nAuthorization: Bearer "; request += apiKey_;
-  request += "\r\nUser-Agent: ESP32-GroqAudioStream\r\nContent-Type: multipart/form-data; boundary=";
+  request += "\r\nUser-Agent: Abi-GroqAudioStream\r\nContent-Type: multipart/form-data; boundary=";
   request += boundary_; request += "\r\nTransfer-Encoding: chunked\r\nConnection: close\r\n\r\n";
   if (client_.print(request) != request.length()) {
     fail("Could not send HTTP request headers");
