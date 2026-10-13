@@ -73,7 +73,7 @@ String GroqAudioStream::transcribe() {
   bool speechDetected = false;
   bool uploadOk = true;
 
-  Serial.println("[GroqAudioStream] Speak now...");
+  if (config_.debugOutput) Serial.println("[GroqAudioStream] Speak now...");
   while ((uint32_t)(millis() - recordStarted) < config_.maxRecordMs) {
     size_t bytesRead = mic_.readBytes(reinterpret_cast<char *>(raw), sizeof(raw));
     if (bytesRead < 2) {
@@ -96,11 +96,11 @@ String GroqAudioStream::transcribe() {
     }
 
     if (!speechDetected && (uint32_t)(now - recordStarted) >= config_.waitForFirstVoiceMs) {
-      Serial.println("[GroqAudioStream] No voice detected");
+      if (config_.debugOutput) Serial.println("[GroqAudioStream] No voice detected");
       break;
     }
     if (speechDetected && (uint32_t)(now - lastVoiceMs) >= config_.silenceToStopMs) {
-      Serial.println("[GroqAudioStream] Silence detected; stopping recording");
+      if (config_.debugOutput) Serial.println("[GroqAudioStream] Silence detected; stopping recording");
       break;
     }
   }
@@ -407,6 +407,8 @@ bool GroqAudioStream::readResponse(String &body) {
 
 void GroqAudioStream::fail(const String &message) {
   lastError_ = message;
-  Serial.print("[GroqAudioStream] ");
-  Serial.println(message);
+  if (config_.debugOutput) {
+    Serial.print("[GroqAudioStream] ");
+    Serial.println(message);
+  }
 }
